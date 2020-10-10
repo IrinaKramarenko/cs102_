@@ -14,15 +14,10 @@ def is_prime(n: int) -> bool:
     False
     """
     # PUT YOUR CODE HERE
-    if n % 2 == 0:
-        return False
-    elif n == 1:
-        return True 
-    else:
-        a = 3
-    while a ** 2 < n and n % a != 0:
-        a += 2
-    return a ** 2 > 2
+    k = 2
+    while n % k != 0:
+        k += 1
+    return k == n
     pass
 
 
@@ -45,7 +40,7 @@ def gcd(a: int, b: int) -> int:
     pass
 
 
-def multiplicative_inverse(e: int, phi: int) -> int:
+def multiplicative_inverse(e, phi):
     """
     Euclid's extended algorithm for finding the multiplicative
     inverse of two numbers.
@@ -63,8 +58,9 @@ def multiplicative_inverse(e: int, phi: int) -> int:
         a[k][1] = min(e, phi)
         a[k][2] = a[k][0] % a[k][1]
         a[k][3] = a[k][0] // a[k][1]
-        phi = a[k][o] % a[k][1]
+        phi = a[k][0] % a[k][1]
         e = a[k][1]
+        k += 1
         a.append([0] * 6)
         if phi == 0:
             break
@@ -74,16 +70,16 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     a[-1][5] = 1
     k -= 2
     for i in range(len(a) - 1):
-    a[k][4] = a[k+1][5]
-    a[k][5] = a[k+1][4] - a[k+1][5] * a[k][3]
-    k -= 1
+        a[k][4] = a[k+1][5]
+        a[k][5] = a[k+1][4] - a[k+1][5] * a[k][3]
+        k -= 1
     b = a[0][5] % a[0][0]
     return b 
     
     pass
 
 
-def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
+def generate_keypair(p, q) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
     if not (is_prime(p) and is_prime(q)):
         raise ValueError("Both numbers must be prime.")
     elif p == q:
