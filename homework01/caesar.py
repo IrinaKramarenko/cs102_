@@ -15,25 +15,23 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     ''
     """
     ciphertext = ""
-    # PUT YOUR CODE HERE
     for i in plaintext:
         if i.isalpha():
             if i.isupper():
-                k = 63
+                shift_uni = 63
             else:
-                k = 95
-            c = ord(i) - k
-            if c + shift <= 26:
-                ciphertext += chr(c + shift +k)
+                shift_uni = 95
+            letter1 = ord(i)
+            if letter1 + shift <= 26:
+                ciphertext += chr(letter1 + shift)
             else:
                 s = shift
-                while c <= 26 and s > 0:
-                    c += 1
+                while letter1 <= 26 and s > 0:
+                    letter1 += 1
                     s -= 1
-                ciphertext += chr(1 + s + k)
+                ciphertext += chr(1 + s)
         else:
-            ciphertext += i 
-
+            ciphertext += i
     return ciphertext
 
 
@@ -51,22 +49,21 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     ''
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
     for i in ciphertext:
         if i.isalpha():
             if i.isupper():
-                k = 63
+                shift_uni = 63
             else:
-                k = 95
-            c = ord(i) - k
-            if c - shift > 0:
-                plaintext += chr(c - shift + k)
+                shift_uni = 95
+            letter1 = ord(i) - shift_uni
+            if letter1 - shift > 0:
+                plaintext += chr(letter1 - shift + shift_uni)
             else:
                 s = shift
-                while c > 0 and s > 0:
-                    c -= 1
-                    s -=1
-                plaintext += chr(26 - s + k)
+                while letter1 > 0 and s > 0:
+                    letter1 -= 1
+                    s -= 1
+                plaintext += chr(26 - s + shift_uni)
         else:
             plaintext += i
     return plaintext
@@ -79,8 +76,8 @@ def caesar_breaker_brute_force(ciphertext: str, dictionary: tp.Set[str]) -> int:
     best_shift = 0
     # PUT YOUR CODE HERE
     for d in dictionary:
-        if len(d) == len(ciphertext):
-            for shift in range(27):
-                if decryot_caesar(ciphertext, shift) == d:
-                    best_shift = shift
+      if len(d) == len(ciphertext):
+        for shift in range(27):
+          if decrypt_caesar(ciphertext, shift) == d:
+            best_shift = shift
     return best_shift
