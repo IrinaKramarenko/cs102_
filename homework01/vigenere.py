@@ -10,35 +10,33 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     'LXFOPVEFRNHR'
     """
     ciphertext = ""
-    # PUT YOUR CODE HERE
     t = 0
     s = []
-    while t <= len(keyword) and len(s) < len(plaintext):
+    while t <= len(keyword) and len(s) < len(plaintext): #создание списка из ключей для каждой буквы ввода
         if t < len(keyword):
             s.append(keyword[t].upper())
             t += 1
         else:
             s.append(keyword[0].upper())
             t = 1
-    for i in range(len(plaintext)):
+    for i in range(len(plaintext)):                          #перебор букв ввода и добавление зашифрованных элементов в вывод
         if plaintext[i].isalpha():
             if plaintext[i].isupper():
-                k = 63
+                shift_uni = 63
             else:
-                k = 95
-            c = ord(plaintext[i]) - k 
+                shift_uni = 95
+            letter1 = ord(plaintext[i]) - shift_uni
             shift = ord(s[i]) - 65
-            if c + shift <= 27:
-                ciphertext += chr(c + shift + k)
+            if letter1 + shift <= 27:
+                ciphertext += chr(letter1 + shift + shift_uni)
             else:
-                while c <= 26 and shift > 0:
-                    c += 1
+                while letter1 <= 26 and shift > 0:
+                    letter1 += 1
                     shift -= 1
-                ciphertext += chr(1 + shift + k)
-        else:
+                ciphertext += chr(1 + shift + shift_uni)
+        else:                                               #добавление небуквенных элементов в вывод
             ciphertext += plaintext[i]
     return ciphertext
-
 
 def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     """
@@ -52,31 +50,30 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'ATTACKATDAWN'
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
     t = 0
     s = []
-    while t <= len(keyword) and len(s) < len(ciphertext):
+    while t <= len(keyword) and len(s) < len(ciphertext): #создание списка из ключей для каждой буквы ввода
         if t < len(keyword):
             s.append(keyword[t].upper())
             t += 1
         else:
             s.append(keyword[0].upper())
             t = 1
-    for i in range(len(ciphertext)):
+    for i in range(len(ciphertext)):                          #перебор букв ввода и добавление расшифрованных элементов в вывод
         if ciphertext[i].isalpha():
             if ciphertext[i].isupper():
-                k = 63
+                shift_uni = 63
             else:
-                k = 95
-            c = ord(ciphertext[i]) - k
+                shift_uni = 95
+            letter1 = ord(ciphertext[i]) - shift_uni
             shift = ord(s[i]) - 65
-            if c - shift > 0:
-                plaintext += chr(c - shift + k)
+            if letter1 - shift > 0:
+                plaintext += chr(letter1 - shift + shift_uni)
             else:
-                while c > 0 and shift > 0:
-                    c -= 1
+                while letter1 > 0 and shift > 0:
+                    letter1 -= 1
                     shift -= 1
-                plaintext += chr(26 - shift + k)
-        else:
+                plaintext += chr(26 - shift + shift_uni)
+        else:                                         #добавление небуквенных элементов в вывод
             plaintext += ciphertext[i]
     return plaintext
