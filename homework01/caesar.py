@@ -1,6 +1,5 @@
 import typing as tp
 
-
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
     Encrypts plaintext using a Caesar cipher.
@@ -14,26 +13,16 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     >>> encrypt_caesar("")
     ''
     """
-    ciphertext = ""
+    ciphertext=''
     for i in plaintext:
         if i.isalpha():
-            if i.isupper():
-                shift_uni = 63
+            if ord('Z') - shift < ord(i) <= ord('Z') or ord('z') - shift < ord(i) <= ord('z'):
+                ciphertext += chr(ord(i) - 26 + shift)
             else:
-                shift_uni = 95
-            letter1 = ord(i)
-            if letter1 + shift <= 26:
-                ciphertext += chr(letter1 + shift)
-            else:
-                s = shift
-                while letter1 <= 26 and s > 0:
-                    letter1 += 1
-                    s -= 1
-                ciphertext += chr(1 + s)
+                ciphertext += chr(ord(i) + shift)
         else:
             ciphertext += i
     return ciphertext
-
 
 def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     """
@@ -48,27 +37,17 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     >>> decrypt_caesar("")
     ''
     """
-    plaintext = ""
+    plaintext = ''
     for i in ciphertext:
         if i.isalpha():
-            if i.isupper():
-                shift_uni = 63
+            if ord('A') + shift > ord(i) >= ord('A') or ord('a') + shift > ord(i) >= ord('a'):
+                plaintext += chr(ord(i) + 26 - shift)
             else:
-                shift_uni = 95
-            letter1 = ord(i) - shift_uni
-            if letter1 - shift > 0:
-                plaintext += chr(letter1 - shift + shift_uni)
-            else:
-                s = shift
-                while letter1 > 0 and s > 0:
-                    letter1 -= 1
-                    s -= 1
-                plaintext += chr(26 - s + shift_uni)
+                plaintext += chr(ord(i) - shift)
         else:
             plaintext += i
     return plaintext
-
-
+    
 def caesar_breaker_brute_force(ciphertext: str, dictionary: tp.Set[str]) -> int:
     """
     Brute force breaking a Caesar cipher.
@@ -77,7 +56,7 @@ def caesar_breaker_brute_force(ciphertext: str, dictionary: tp.Set[str]) -> int:
     # PUT YOUR CODE HERE
     for d in dictionary:
       if len(d) == len(ciphertext):
-        for shift in range(27):
+        for shift in range(26):
           if decrypt_caesar(ciphertext, shift) == d:
             best_shift = shift
     return best_shift
