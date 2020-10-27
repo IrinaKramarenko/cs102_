@@ -41,7 +41,6 @@ def gcd(a: int, b: int) -> int:
             b = b % a
     return max(a, b)
 
-
 def multiplicative_inverse(e: int, phi: int) -> int:
     """
     Euclid's extended algorithm for finding the multiplicative
@@ -51,33 +50,16 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     23
     """
     # PUT YOUR CODE HERE
-    a = []
-    for i in range(2):
-        a.append([0] * 6)
-    k = 0
-    while e % phi >= 0:
-        a[k][0] = max(e, phi)
-        a[k][1] = min(e, phi)
-        a[k][2] = a[k][0] % a[k][1]
-        a[k][3] = a[k][0] // a[k][1]
-        phi = a[k][0] % a[k][1]
-        e = a[k][1]
-        k += 1
-        a.append([0] * 6)
-        if phi == 0:
-            break
-    a.pop(-1)
-    a.pop(-1)
-    print(a)
-    a[-1][4] = 0
-    a[-1][5] = 1
-    k -= 2
-    for i in range(len(a)-1):
-        a[k][4] = a[k+1][5]
-        a[k][5] = a[k+1][4] - a[k+1][5] * a[k][3]
-        k -= 1 
-    b = a[0][5] % a[0][0]
-    return b
+    def mi(e, b):
+        if e % b == 0:
+            return b, 0, 1
+        else:
+            if b > e:
+                e, b = b, e
+            g, x, y = mi(b, e % b)
+            return g, y, x - (e // b) * y
+    g, x, y = mi(e, phi)
+    return y % phi
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
     if not (is_prime(p) and is_prime(q)):
