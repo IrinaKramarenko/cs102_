@@ -87,11 +87,15 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     >>> get_block(grid, (8, 8))
     ['2', '8', '.', '.', '.', '5', '.', '7', '9']
     """
-    return [grid[(pos[0] // 3 * 3) + i][(pos[1] // 3 * 3) + j] for i in range(3) for j in range(3)]
+    return [
+        grid[(pos[0] // 3 * 3) + i][(pos[1] // 3 * 3) + j]
+        for i in range(3)
+        for j in range(3)
+    ]
 
 
 def find_empty_positions(
-    grid: tp.List[tp.List[str]]
+    grid: tp.List[tp.List[str]],
 ) -> tp.Optional[tp.Tuple[int, int]]:
     """Найти первую свободную позицию в пазле
     >>> find_empty_positions([['1', '2', '.'], ['4', '5', '6'], ['7', '8', '9']])
@@ -122,7 +126,11 @@ def find_possible_values(
     """
     values = set()
     for i in range(1, 10):
-        if str(i) in get_row(grid, pos) or str(i) in get_col(grid, pos) or str(i) in get_block(grid, pos):
+        if (
+            str(i) in get_row(grid, pos)
+            or str(i) in get_col(grid, pos)
+            or str(i) in get_block(grid, pos
+        ):
             continue
         else:
             values.add(str(i))
