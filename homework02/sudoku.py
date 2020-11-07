@@ -130,8 +130,6 @@ def find_possible_values(grid: List[List[str]], pos: Tuple[int, int]) -> Set[str
         ):
             continue
         values.add(str(i))
-    if values == {}:
-        return {""}
     return values
 
 
@@ -156,7 +154,7 @@ def solve(grid: List[List[str]]) -> Optional[List[List[str]]]:
     ['3', '4', '5', '2', '8', '6', '1', '7', '9']]
     """
     position = find_empty_positions(grid)
-    if position is None:
+    if not position:
         return grid
     for i in find_possible_values(grid, position):
         grid[position[0]][position[1]] = i
