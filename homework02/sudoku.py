@@ -175,8 +175,9 @@ def check_solution(solution: List[List[str]]) -> bool:
     return True
 
 
+# type: ignore
 def generate_sudoku(unknown_num: int) -> List[List[str]]:
-    """Генерация судоку заполненного на N элементов
+    """Генерация судоку заполненного на N элементовX
     >>> grid = generate_sudoku(40)
     >>> sum(1 for row in grid for e in row if e == '.')
     41
@@ -200,10 +201,10 @@ def generate_sudoku(unknown_num: int) -> List[List[str]]:
     while 81 - unknown_num > 0:
         row = random.randint(0, 8)
         col = random.randint(0, 8)
-        if grid[row][col] != ".":
-            grid[row][col] = "."
+        if grid[row][col] != ".":  # type: ignore
+            grid[row][col] = "."  # type: ignore
             unknown_num += 1
-    return grid
+    return grid  # type: ignore
 
 
 if __name__ == "__main__":
