@@ -27,8 +27,7 @@ def display(grid: tp.List[tp.List[str]]) -> None:
     for row in range(9):
         print(
             "".join(
-                grid[row][col].center(width) + ("|" if str(col) in "25" else "")
-                for col in range(9)
+                grid[row][col].center(width) + ("|" if str(col) in "25" else "") for col in range(9)
             )
         )
         if str(row) in "25":
@@ -132,7 +131,7 @@ def find_possible_values(grid: List[List[str]], pos: Tuple[int, int]) -> Set[str
 
 
 def solve(grid: List[List[str]]) -> Optional[List[List[str]]]:
-    """ Решение пазла, заданного в grid
+    """Решение пазла, заданного в grid
     Как решать Судоку?
         1. Найти свободную позицию
         2. Найти все возможные значения, которые могут находиться на этой позиции
