@@ -8,6 +8,7 @@ class Console(UI):
 
     def __init__(self, life: GameOfLife) -> None:
         super().__init__(life)
+        # self.save_path = save_path
 
     def draw_borders(self, screen) -> None:
         """ Отобразить рамку. """
@@ -35,7 +36,7 @@ class Console(UI):
         screen = curses.initscr()
         # PUT YOUR CODE HERE
         
-        while self.life.is_changing and not self.life.is_max_generation_exceeded:
+        while self.life.is_changing and not self.life.is_max_generations_exceeded:
             self.draw_borders(screen)
             self.draw_grid(screen)
             screen.refresh()
@@ -43,3 +44,7 @@ class Console(UI):
             time.sleep(0.5)
         curses.endwin()
 
+if __name__ == "__main__":
+    game = GameOfLife((240, 240), 20)
+    cons = Console(game)
+    cons.run()
