@@ -55,13 +55,12 @@ class GameOfLife:
         for i in range(self.rows):
             for j in range(self.cols):
                 num_neighbours = sum(self.get_neighbours((i, j)))
-                if grid[i][j] == 0:
-                    if num_neighbours == 3:
-                        grid[i][j] = 1
-                else:
-                    if num_neighbours != 2 or num_neighbours != 3:
-                        grid[i][j] = 0
+                if num_neighbours == 3:
+                    grid[i][j] = 1
+                elif num_neighbours < 2 or num_neighbours > 3:
+                    grid[i][j] = 0
         self.curr_generation = grid
+        return grid
 
     def step(self) -> None:
         """
@@ -77,7 +76,7 @@ class GameOfLife:
         """
         Не превысило ли текущее число поколений максимально допустимое.
         """
-        return self.generations <= self.max_generations
+        return self.generations >= self.max_generations
 
     @property
     def is_changing(self) -> bool:
@@ -91,10 +90,21 @@ class GameOfLife:
         """
         Прочитать состояние клеток из указанного файла.
         """
-        pass
+        with open(filename, 'r') as f:
+            lines = f.readlines()
+        rows = len(lines)
+        cols = len(lines[0].strip())
+        game = GameOfLife(size=(rows, cols), randomize=False)
+        with open(filename, 'r') as f:
+            for i in range(rows):
+                lines[i].strip()
+                for j in range(cols):
+                    game.curr_generation[i][j] = int(lines[i][j])
 
     def save(self, filename: pathlib.Path) -> None:
         """
         Сохранить текущее состояние клеток в указанный файл.
         """
-        pass
+        with open(filename, "w") as f:
+            for row in self.curr_generation:
+                f.write(''.join(str(v) for v in row) + '\n')
