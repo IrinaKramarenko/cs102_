@@ -1,6 +1,7 @@
 import pathlib
 import random
 import typing as tp
+from copy import deepcopy
 
 import pygame
 from pygame.locals import *
@@ -41,7 +42,7 @@ class GameOfLife:
     def get_neighbours(self, cell: Cell) -> Cells:
         # Copy from previous assignment
         Cells = []
-        grid = self.curr_generation
+        grid = deepcopy(self.curr_generation)
         for i in range(cell[0]-1, cell[0]+2):
             for j in range(cell[1]-1, cell[1]+2):
                 if (i != cell[0] or j != cell[1]) and 0 <= i < len(grid) and 0 <= j < len(grid[i]):
@@ -50,32 +51,33 @@ class GameOfLife:
 
     def get_next_generation(self) -> Grid:
         # Copy from previous assignment
+        grid = deepcopy(self.curr_generation)
         for i in range(self.rows):
             for j in range(self.cols):
-                if self.curr_generation[i][j] == 0:
-                    if sum(self.get_neighbours((i, j))) == 3:
-                        self.curr_generation[i][j] = 1
+                num_neighbours = sum(self.get_neighbours((i, j)))
+                if grid[i][j] == 0:
+                    if num_neighbours == 3:
+                        grid[i][j] = 1
                 else:
-                    if sum(self.get_neighbours((i, j))) != 2 or sum(self.get_neighbours((i, j))) != 3:
-                        self.curr_generation[i][j] = 0
-        return self.curr_generation
+                    if num_neighbours != 2 or num_neighbours != 3:
+                        grid[i][j] = 0
+        self.curr_generation = grid
 
     def step(self) -> None:
         """
         Выполнить один шаг игры.
         """
-        self.prev_generation = self.curr_generation
-        self.get_next_generation()
-        self.generations += 1
+        if self.is_max_generations_exceeded:
+            self.prev_generation = self.curr_generation
+            self.curr_generation = self.get_next_generation()
+            self.generations += 1
 
     @property
     def is_max_generations_exceeded(self) -> bool:
         """
         Не превысило ли текущее число поколений максимально допустимое.
         """
-        if self.generations <= self.max_generations:
-            return True
-        return False
+        return self.generations <= self.max_generations
 
     @property
     def is_changing(self) -> bool:

@@ -1,5 +1,6 @@
 import random
 import typing as tp
+from copy import deepcopy
 
 import pygame
 from pygame.locals import *
@@ -28,6 +29,8 @@ class GameOfLife:
 
         # Скорость протекания игры
         self.speed = speed
+
+        self.grid = self.create_grid(True)
 
     def draw_lines(self) -> None:
         """ Отрисовать сетку """
@@ -92,7 +95,7 @@ class GameOfLife:
         """
         x = 0
         y = 0
-        grid = self.creat_grid()
+        grid = self.grid
         for i in range(len(grid)):
             for j in range(len(grid[i])):
                 if grid[i][j] == 0:
@@ -137,12 +140,15 @@ class GameOfLife:
         out : Grid
             Новое поколение клеток.
         """
+        grid = deepcopy(self.grid)
         for i in range(self.cell_height):
             for j in range(self.cell_width):
-                if self.grid[i][j] == 0:
-                    if sum(self.get_neighbours((i, j))) == 3:
-                        self.grid[i][j] = 1
+                num_neighbours = sum(self.get_neighbours((i, j)))
+                if grid[i][j] == 0:
+                    if num_neighbours == 3:
+                        grid[i][j] = 1
                 else:
-                    if sum(self.get_neighbours((i, j))) != 2 or sum(self.get_neighbours((i, j))) != 3:
-                        self.grid[i][j] = 0
+                    if num_neighbours != 2 or num_neighbours != 3:
+                        grid[i][j] = 0
+        self.grid = grid
         return self.grid
