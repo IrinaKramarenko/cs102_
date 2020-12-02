@@ -34,7 +34,7 @@ class GameOfLife:
         self.generations = 1
 
     def create_grid(self, randomize: bool = False) -> Grid:
-        """"
+        """
         Creating a game grid
         """
         # Copy from previous assignment
