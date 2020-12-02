@@ -12,6 +12,10 @@ Grid = tp.List[Cells]
 
 
 class GameOfLife:
+    """
+    GameOfLife
+    """
+
     def __init__(
         self,
         size: tp.Tuple[int, int],
@@ -30,6 +34,9 @@ class GameOfLife:
         self.generations = 1
 
     def create_grid(self, randomize: bool = False) -> Grid:
+        """"
+        Creating a game grid
+        """
         # Copy from previous assignment
         grid = [[0] * self.cols for i in range(self.rows)]
         if randomize:
@@ -40,16 +47,26 @@ class GameOfLife:
         return grid
 
     def get_neighbours(self, cell: Cell) -> Cells:
+        """
+        Creating a list of neighbours
+        """
         # Copy from previous assignment
-        Cells = []
+        cells = []
         grid = deepcopy(self.curr_generation)
-        for i in range(cell[0]-1, cell[0]+2):
-            for j in range(cell[1]-1, cell[1]+2):
-                if (i != cell[0] or j != cell[1]) and 0 <= i < len(grid) and 0 <= j < len(grid[i]):
-                    Cells.append(grid[i][j])
-        return Cells
+        for i in range(cell[0] - 1, cell[0] + 2):
+            for j in range(cell[1] - 1, cell[1] + 2):
+                if (
+                    (i != cell[0] or j != cell[1])
+                    and 0 <= i < len(grid)
+                    and 0 <= j < len(grid[i])
+                ):
+                    cells.append(grid[i][j])
+        return cells
 
     def get_next_generation(self) -> Grid:
+        """
+        Creating a new generation
+        """
         # Copy from previous assignment
         grid = deepcopy(self.curr_generation)
         for i in range(self.rows):
@@ -66,7 +83,7 @@ class GameOfLife:
         """
         Выполнить один шаг игры.
         """
-        if self.is_max_generations_exceeded:
+        if not self.is_max_generations_exceeded:
             self.prev_generation = self.curr_generation
             self.curr_generation = self.get_next_generation()
             self.generations += 1
@@ -90,16 +107,17 @@ class GameOfLife:
         """
         Прочитать состояние клеток из указанного файла.
         """
-        with open(filename, 'r') as f:
+        with open(filename, "r") as f:
             lines = f.readlines()
         rows = len(lines)
         cols = len(lines[0].strip())
         game = GameOfLife(size=(rows, cols), randomize=False)
-        with open(filename, 'r') as f:
+        with open(filename, "r") as f:
             for i in range(rows):
                 lines[i].strip()
                 for j in range(cols):
                     game.curr_generation[i][j] = int(lines[i][j])
+        return game
 
     def save(self, filename: pathlib.Path) -> None:
         """
@@ -107,4 +125,4 @@ class GameOfLife:
         """
         with open(filename, "w") as f:
             for row in self.curr_generation:
-                f.write(''.join(str(v) for v in row) + '\n')
+                f.write("".join(str(v) for v in row) + "\n")
