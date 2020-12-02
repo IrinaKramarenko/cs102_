@@ -71,15 +71,7 @@ class GUI(UI):
                     pause = not pause
                 elif event.type == MOUSEBUTTONDOWN and pause:
                     row, col = pygame.mouse.get_pos()
-                    self.life.curr_generation[row // self.cell_size][
-                        col // self.cell_size
-                    ] = 
-                        (
-                            self.life.curr_generation[row // self.cell_size][
-                                col // self.cell_size
-                            ]
-                            + 1
-                        ) % 2
+                    self.life.curr_generation[row // self.cell_size][col // self.cell_size] = (self.life.curr_generation[row // self.cell_size][col // self.cell_size] + 1) % 2
             self.draw_grid()
             self.draw_lines()
             if not pause:
