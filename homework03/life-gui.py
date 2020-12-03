@@ -65,11 +65,11 @@ class GUI(UI):
         pause = False
         while running and not self.life.is_max_generations_exceeded:
             for event in pygame.event.get():
-                if event.type == QUIT:
+                if event.type == pygame.QUIT:
                     running = False
-                elif event.type == KEYUP and event.key == K_SPACE:
+                elif event.type == pygame.KEYUP and event.key == pygame.K_SPACE:
                     pause = not pause
-                elif event.type == MOUSEBUTTONDOWN and pause:
+                elif event.type == pygame.MOUSEBUTTONDOWN and pause:
                     row, col = pygame.mouse.get_pos()
                     self.life.curr_generation[row // self.cell_size][
                         col // self.cell_size
