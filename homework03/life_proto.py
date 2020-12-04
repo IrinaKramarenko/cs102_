@@ -112,7 +112,7 @@ class GameOfLife:
                         j * self.cell_size,
                         i * self.cell_size,
                         self.cell_size,
-                        self.cell_size
+                        self.cell_size,
                     ),
                 )
 
