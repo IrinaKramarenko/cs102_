@@ -56,15 +56,15 @@ class GameOfLife:
         running = True
         while running:
             for event in pygame.event.get():
-                if event.type == QUIT:
+                if event.type == pygame.QUIT:
                     running = False
-            self.draw_lines()
 
             # Отрисовка списка клеток
             # Выполнение одного шага игры (обновление состояния ячеек)
             # PUT YOUR CODE HERE
             self.draw_grid()
             self.get_next_generation()
+            self.draw_lines()
             pygame.display.flip()
             clock.tick(self.speed)
         pygame.quit()
@@ -98,8 +98,6 @@ class GameOfLife:
         """
         Отрисовка списка клеток с закрашиванием их в соответствующе цвета.
         """
-        width = 0
-        height = 0
         grid = self.grid
         for i in range(len(grid)):
             for j in range(len(grid[i])):
@@ -108,10 +106,10 @@ class GameOfLife:
                 else:
                     color = pygame.Color("green")
                 pygame.draw.rect(
-                    self.screen, color, (width, height, self.cell_size, self.cell_size)
+                    self.screen,
+                    color,
+                    (j * self.cell_size, i * self.cell_size, self.cell_size, self.cell_size),
                 )
-                width += self.cell_size
-                height += self.cell_size
 
     def get_neighbours(self, cell: Cell) -> Cells:
         """
