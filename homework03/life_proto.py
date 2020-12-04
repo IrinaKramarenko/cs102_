@@ -108,7 +108,12 @@ class GameOfLife:
                 pygame.draw.rect(
                     self.screen,
                     color,
-                    (j * self.cell_size, i * self.cell_size, self.cell_size, self.cell_size),
+                    (
+                        j * self.cell_size,
+                        i * self.cell_size,
+                        self.cell_size,
+                        self.cell_size
+                    ),
                 )
 
     def get_neighbours(self, cell: Cell) -> Cells:
