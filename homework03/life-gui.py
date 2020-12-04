@@ -70,7 +70,7 @@ class GUI(UI):
                 elif event.type == pygame.KEYUP and event.key == pygame.K_SPACE:
                     pause = not pause
                 elif event.type == pygame.MOUSEBUTTONDOWN and pause:
-                    row, col = pygame.mouse.get_pos()
+                    col, row = pygame.mouse.get_pos()
                     self.life.curr_generation[row // self.cell_size][
                         col // self.cell_size
                     ] = (
