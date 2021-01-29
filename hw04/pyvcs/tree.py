@@ -65,7 +65,6 @@ def commit_tree(
     parent: tp.Optional[str] = None,
     author: tp.Optional[str] = None,
 ) -> str:
-    # PUT YOUR CODE HERE
     now = int(time.mktime(time.localtime()))
     timezone = time.timezone
     if timezone > 0:
