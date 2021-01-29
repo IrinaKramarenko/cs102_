@@ -8,7 +8,7 @@ def repo_find(workdir: tp.Union[str, pathlib.Path] = ".") -> pathlib.Path:
     if "GIT_DIR" in os.environ:
         gitdir_name = os.environ["GIT_DIR"]
     else:
-        gitdir_name =  ".pyvcs"
+        gitdir_name = ".pyvcs"
     workdir = pathlib.Path(workdir)
     while str(workdir.absolute()) != "/":
         if (workdir / gitdir_name).is_dir():

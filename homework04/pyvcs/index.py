@@ -26,7 +26,11 @@ class GitIndexEntry(tp.NamedTuple):
 
     def pack(self) -> bytes:
         return struct.pack(
-            ">10I20sh" + str(len(self.name)) + "s" + str(8 - (62 + len(self.name)) % 8) + "x",
+            ">10I20sh"
+            + str(len(self.name))
+            + "s"
+            + str(8 - (62 + len(self.name)) % 8)
+            + "x",
             self.ctime_s,
             self.ctime_n,
             self.mtime_s,
@@ -45,7 +49,9 @@ class GitIndexEntry(tp.NamedTuple):
     @staticmethod
     def unpack(data: bytes) -> "GitIndexEntry":
         # PUT YOUR CODE HERE
-        index_unpacked_content = struct.unpack(">10I20sh" + str(len(data) - 62) + "s", data)
+        index_unpacked_content = struct.unpack(
+            ">10I20sh" + str(len(data) - 62) + "s", data
+        )
         return GitIndexEntry(
             *(
                 list(index_unpacked_content[:-1])
@@ -70,10 +76,11 @@ def read_index(gitdir: pathlib.Path) -> tp.List[GitIndexEntry]:
         for j in range(63, len(main_content_copy), 8):
             if main_content_copy[j] == 0:
                 end_position = joinbreak
-        result += [GitIndexEntry.unpack(main_content_copy[:end_position + 1])]
+        result += [GitIndexEntry.unpack(main_content_copy[: end_position + 1])]
         if len(main_content_copy) != end_position - 1:
-            main_content_copy = main_content_copy[end_position + 1:]
+            main_content_copy = main_content_copy[end_position + 1 :]
     return result
+
 
 def write_index(gitdir: pathlib.Path, entries: tp.List[GitIndexEntry]) -> None:
     # PUT YOUR CODE HERE
@@ -100,7 +107,9 @@ def ls_files(gitdir: pathlib.Path, details: bool = False) -> None:
             print(entry.name)
 
 
-def update_index(gitdir: pathlib.Path, paths: tp.List[pathlib.Path], write: bool = True) -> None:
+def update_index(
+    gitdir: pathlib.Path, paths: tp.List[pathlib.Path], write: bool = True
+) -> None:
     # PUT YOUR CODE HERE
     entries = {entry.name: entry for entry in read_index(gitdir)}
     for path in paths:

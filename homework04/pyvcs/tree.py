@@ -9,7 +9,9 @@ from pyvcs.objects import hash_object
 from pyvcs.refs import get_ref, is_detached, resolve_head, update_ref
 
 
-def write_tree(gitdir: pathlib.Path, index: tp.List[GitIndexEntry], dirname: str = "") -> str:
+def write_tree(
+    gitdir: pathlib.Path, index: tp.List[GitIndexEntry], dirname: str = ""
+) -> str:
     # PUT YOUR CODE HERE
     files_list = []
     for x in (gitdir.parent / dirname).glob("*"):
@@ -32,21 +34,23 @@ def write_tree(gitdir: pathlib.Path, index: tp.List[GitIndexEntry], dirname: str
             to_add_dirs[subdir_name],
             dirname + "/" + subdir_name if dirname != "" else subdir_name,
         )
-        entries_to_format.append(GitIndexEntry(
-            ctime_s=int(st.st_ctime),
-            ctime_n=st.st_ctime_ns % len(str(int(st.st_ctime))),
-            mtime_s=int(st.st_mtime),
-            mtime_n=st.st_mtime_ns % len(str(int(st.st_mtime))),
-            dev=st.st_dev,
-            ino=st.st_ino,
-            mode=0o40000,
-            uid=st.st_uid,
-            gid=st.st_gid,
-            size=st.st_size,
-            sha1=bytes.fromhex(sha),
-            flags=7,
-            name=str(pathlib.Path(gitdir.parent) / dirname / subdir_name),
-        ))
+        entries_to_format.append(
+            GitIndexEntry(
+                ctime_s=int(st.st_ctime),
+                ctime_n=st.st_ctime_ns % len(str(int(st.st_ctime))),
+                mtime_s=int(st.st_mtime),
+                mtime_n=st.st_mtime_ns % len(str(int(st.st_mtime))),
+                dev=st.st_dev,
+                ino=st.st_ino,
+                mode=0o40000,
+                uid=st.st_uid,
+                gid=st.st_gid,
+                size=st.st_size,
+                sha1=bytes.fromhex(sha),
+                flags=7,
+                name=str(pathlib.Path(gitdir.parent) / dirname / subdir_name),
+            )
+        )
     preformatted_data = b"".join(
         oct(entry.mode)[2:].encode()
         + b" "
