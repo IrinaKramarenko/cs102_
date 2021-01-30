@@ -3,7 +3,7 @@ import pathlib
 import typing as tp
 
 from pyvcs.index import read_index, update_index
-from pyvcs.objects import commit_parse, find_object, find_tree_files, read_object
+from pyvcs.objects import commit_parse, find_object, find_tree_files, read_object, read_tree
 from pyvcs.refs import get_ref, is_detached, resolve_head, update_ref
 from pyvcs.tree import commit_tree, write_tree
 
@@ -50,7 +50,7 @@ def checkout(gitdir: pathlib.Path, obj_name: str) -> None:
                     if not (tree_path / file_data[1]).exists():
                         with (tree_path / file_data[1]).open("wb") as f:
                             f.write(data)
-                        (tree_path / file_data[1].chmod(int(str(file_data[0]), 8)))
+                        (tree_path / file_data[1]).chmod(int(str(file_data[0]), 8))
         if "parent" in com:
             com.append(commit_parse((read_object(com["parent"], gitdir)[1])))
         else:
