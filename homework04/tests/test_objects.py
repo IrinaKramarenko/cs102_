@@ -96,7 +96,7 @@ class ResolveObjectTestCase(TestCase):
         obj_name = "7e7"
         with self.assertRaises(Exception) as ctx:
             objects.resolve_object(obj_name, gitdir)
-        self.assertEqual(f"Not a valid object name {obj_name} ytrfj", str(ctx.exception))
+        self.assertEqual(f"Not a valid object name {obj_name}", str(ctx.exception))
 
         obj_name = "7e7774cf533c51803125d4659f3488bd9dffc41a1e"
         with self.assertRaises(Exception) as ctx:
