@@ -17,7 +17,6 @@ def symbolic_ref(gitdir: pathlib.Path, name: str, ref: str) -> None:
 
 
 def ref_resolve(gitdir: pathlib.Path, refname: str) -> str:
-    # PUT YOUR CODE HERE
     if refname == "HEAD" and not is_detached(gitdir):
         return resolve_head(gitdir)
     if (gitdir / refname).exists():
@@ -26,7 +25,7 @@ def ref_resolve(gitdir: pathlib.Path, refname: str) -> str:
     return None
 
 
-def resolve_head(gitdir: pathlib.Path) -> tp.Optional[str]:
+def resolve_head(gitdir: pathlib.Path) -> str:
     # PUT YOUR CODE HERE
     return ref_resolve(gitdir, get_ref(gitdir))
 
