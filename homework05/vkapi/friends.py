@@ -98,4 +98,3 @@ def get_mutual(
             return r["response"]
         except KeyError:
             raise APIError(r["error"])
-

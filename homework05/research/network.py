@@ -81,4 +81,3 @@ def describe_communities(
                     )  # type: ignore
                     break
     return pd.DataFrame(data=data, columns=["cluster"] + fields)
-

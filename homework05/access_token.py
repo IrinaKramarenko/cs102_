@@ -32,4 +32,3 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
     get_access_token(args.client_id, args.scope)
-

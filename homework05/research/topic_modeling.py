@@ -65,4 +65,3 @@ def my_realization():
     )
     vis = pyLDAvis.gensim.prepare(ldamodel, corpus, dictionary)
     pyLDAvis.show(vis)
-
