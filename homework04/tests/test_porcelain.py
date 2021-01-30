@@ -10,7 +10,7 @@ from pyvcs.porcelain import add, checkout, commit
 from pyvcs.repo import repo_create
 
 
-@unittest.skipIf(pyvcs.__version_info__ < (0, 8, 0), "Нужна версия пакета 0.8.0 и выше")
+@unittest.skipIf(pyvcs.__version_info__ < (0, 8, 0), "8")
 class CheckoutTestCase(TestCase):
     def setUp(self):
         self.setUpPyfakefs()
@@ -115,7 +115,7 @@ class CheckoutTestCase(TestCase):
         self.assertTrue(self.fs.exists(letters.parent.absolute()))
         self.assertFalse(
             self.fs.exists(digits.parent.absolute()),
-            msg=f"Каталога `{digits.parent}` не должно существовать",
+            msg=f"Kataloga `{digits.parent}` ne dolzhno suschestvovat",
         )
         self.assertTrue(self.fs.exists(letters.absolute()))
 
@@ -123,9 +123,9 @@ class CheckoutTestCase(TestCase):
         self.assertTrue(self.fs.exists("quote.txt"))
         self.assertFalse(
             self.fs.exists(letters.parent.absolute()),
-            msg=f"Каталога `{letters.parent}` не должно существовать",
+            msg=f"Kataloga `{letters.parent}` ne dolzhno suschestvovat",
         )
         self.assertFalse(
             self.fs.exists(digits.parent.absolute()),
-            msg=f"Каталога `{digits.parent}` не должно существовать",
+            msg=f"Kataloga `{digits.parent}` ne dolzhno suschestvovat",
         )

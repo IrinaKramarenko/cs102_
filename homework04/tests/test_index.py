@@ -10,7 +10,7 @@ from pyvcs.index import GitIndexEntry, ls_files, read_index, update_index, write
 from pyvcs.repo import repo_create
 
 
-@unittest.skipIf(pyvcs.__version_info__ < (0, 4, 0), "Нужна версия пакета 0.4.0 и выше")
+@unittest.skipIf(pyvcs.version_info < (0, 4, 0), "4")
 class GitIndexEntryTestCase(TestCase):
     def test_pack(self):
         entry = GitIndexEntry(
@@ -51,7 +51,7 @@ class GitIndexEntryTestCase(TestCase):
         self.assertEqual(expected_entry, GitIndexEntry.unpack(pack))
 
 
-@unittest.skipIf(pyvcs.__version_info__ < (0, 4, 0), "Нужна версия пакета 0.4.0 и выше")
+@unittest.skipIf(pyvcs.__version_info__ < (0, 4, 0), "4")
 class ReadIndexTestCase(TestCase):
     def setUp(self):
         self.setUpPyfakefs()
@@ -75,7 +75,7 @@ class ReadIndexTestCase(TestCase):
         self.assertEqual([], entries)
 
 
-@unittest.skipIf(pyvcs.__version_info__ < (0, 4, 0), "Нужна версия пакета 0.4.0 и выше")
+@unittest.skipIf(pyvcs.__version_info__ < (0, 4, 0), "4")
 class LsFilesTestCase(TestCase):
     def setUp(self):
         self.setUpPyfakefs()
@@ -105,7 +105,7 @@ class LsFilesTestCase(TestCase):
             self.assertEqual(expected_output, out.getvalue().strip())
 
 
-@unittest.skipIf(pyvcs.__version_info__ < (0, 4, 0), "Нужна версия пакета 0.4.0 и выше")
+@unittest.skipIf(pyvcs.__version_info__ < (0, 4, 0), "4")
 class WriteIndexTestCase(TestCase):
     def setUp(self):
         self.setUpPyfakefs()
@@ -168,7 +168,7 @@ class WriteIndexTestCase(TestCase):
         self.assertEqual(expected_index_data, index_data)
 
 
-@unittest.skipIf(pyvcs.__version_info__ < (0, 4, 0), "Нужна версия пакета 0.4.0 и выше")
+@unittest.skipIf(pyvcs.__version_info__ < (0, 4, 0), "4")
 class UpdateIndexTestCase(TestCase):
     def setUp(self):
         self.setUpPyfakefs()
