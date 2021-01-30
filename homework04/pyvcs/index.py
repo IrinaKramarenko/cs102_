@@ -93,7 +93,7 @@ def write_index(gitdir: pathlib.Path, entries: tp.List[GitIndexEntry]) -> None:
         file.write(struct.pack(">I", len(entries)))
         for entry in entries:
             data += entry.pack()
-            file.write(entry.pack)
+            file.write(entry.pack())
         file.write(hashlib.sha1(data).digest())
 
 
