@@ -63,7 +63,7 @@ def read_object(sha: str, gitdir: pathlib.Path) -> tp.Tuple[str, bytes]:
     )
 
 
-def read_tree(data: bytes) -> List[int]:
+def read_tree(data: bytes):
     # PUT YOUR CODE HERE
     tree = []  # type
     while data:
