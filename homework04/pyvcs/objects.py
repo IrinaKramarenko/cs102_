@@ -65,7 +65,7 @@ def read_object(sha: str, gitdir: pathlib.Path) -> tp.Tuple[str, bytes]:
 
 def read_tree(data: bytes) -> tp.List[tp.Tuple[int, str, str]]:
     # PUT YOUR CODE HERE
-    tree = []  # type: List[str]
+    tree = []  # type: 
     while data:
         before_sha_ind = data.index(b"\00")
         mode, name = map(lambda x: x.decode(), data[:before_sha_ind].split(b" "))
