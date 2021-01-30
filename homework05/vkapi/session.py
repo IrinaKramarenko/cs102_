@@ -49,4 +49,3 @@ class Session(requests.Session):
             del kwargs["timeout"]
         url = self.base_url + url
         return super().post(url, *args, timeout=timeout, **kwargs)
-
