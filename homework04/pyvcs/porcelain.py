@@ -35,15 +35,15 @@ def checkout(gitdir: pathlib.Path, obj_name: str) -> None:
     com = commit_parse(read_object(obj_name, gitdir)[1])
     finished = False
     while not finished:
-        trees: tp.List[tr.Tuple[pathlib.Path, tp.List[tp.Tuple[int, str, str]]]]
-        trees = [(gitdir, parent, read_tree(read_object(com["tree"], gitdir)[1]))]
+        trees: tp.List[tp.Tuple[pathlib.Path, tp.List[tp.Tuple[int, str, str]]]]
+        trees = [(gitdir.parent, read_tree(read_object(com["tree"], gitdir)[1]))]
         while trees:
             tree_path, tree_content = trees[-1]
             del trees[-1]
             for file_data in tree_content:
                 fmt, data = read_object(file_data[2], gitdir)
                 if fmt == "tree":
-                    trees.append((tree + path / file_data[1], read_tree(data)))
+                    trees.append((tree_path / file_data[1], read_tree(data)))
                     if not (tree_path / file_data[1]).exists():
                         (tree_path / file_data[1]).mkdir()
                 else:
