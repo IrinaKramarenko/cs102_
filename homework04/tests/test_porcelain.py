@@ -115,7 +115,7 @@ class CheckoutTestCase(TestCase):
         self.assertTrue(self.fs.exists(letters.parent.absolute()))
         self.assertFalse(
             self.fs.exists(digits.parent.absolute()),
-            msg=f"Kataloga `{digits.parent}` ne dolzhno suschestvovat",
+            msg=f"Kataloga {digits.parent} ne dolzhno suschestvovat",
         )
         self.assertTrue(self.fs.exists(letters.absolute()))
 
@@ -123,9 +123,9 @@ class CheckoutTestCase(TestCase):
         self.assertTrue(self.fs.exists("quote.txt"))
         self.assertFalse(
             self.fs.exists(letters.parent.absolute()),
-            msg=f"Kataloga `{letters.parent}` ne dolzhno suschestvovat",
+            msg=f"Kataloga {letters.parent} ne dolzhno suschestvovat",
         )
         self.assertFalse(
             self.fs.exists(digits.parent.absolute()),
-            msg=f"Kataloga `{digits.parent}` ne dolzhno suschestvovat",
+            msg=f"Kataloga {digits.parent} ne dolzhno suschestvovat",
         )

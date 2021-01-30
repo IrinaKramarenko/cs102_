@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import networkx as nx
 import pandas as pd
 
-from vkapi.friends import get_friends, get_mutual, MutualFriends  
+from vkapi.friends import get_friends, get_mutual, MutualFriends
 
 
 def ego_network(
@@ -20,7 +20,8 @@ def ego_network(
     """
     if not friends:
         friends = tp.cast(
-            tp.List[int], get_friends(user_id=tp.cast(int, user_id), fields=["nickname"]).items
+            tp.List[int],
+            get_friends(user_id=tp.cast(int, user_id), fields=["nickname"]).items,
         )
 
     mutual = get_mutual(source_uid=user_id, target_uids=friends)
@@ -53,7 +54,7 @@ def plot_communities(net: tp.List[tp.Tuple[int, int]]) -> None:
 
 
 def get_communities(net: tp.List[tp.Tuple[int, int]]) -> tp.Dict[int, tp.List[int]]:
-    communities = defaultdict(list)  
+    communities = defaultdict(list)
     graph = nx.Graph()
     graph.add_edges_from(net)
     partition = community_louvain.best_partition(graph)
@@ -80,3 +81,4 @@ def describe_communities(
                     )  # type: ignore
                     break
     return pd.DataFrame(data=data, columns=["cluster"] + fields)
+

@@ -76,7 +76,6 @@ def read_tree(data: bytes) -> tp.List[tp.Tuple[int, str, str]]:
 
 
 def cat_file(obj_name: str, pretty: bool = True) -> None:
-    # PUT YOUR CODE HERE
     gitdir = repo_find()
     fmt, file_content = read_object(obj_name, gitdir)
     if fmt == "blob" or fmt == "commit":

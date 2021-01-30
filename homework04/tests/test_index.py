@@ -10,7 +10,7 @@ from pyvcs.index import GitIndexEntry, ls_files, read_index, update_index, write
 from pyvcs.repo import repo_create
 
 
-@unittest.skipIf(pyvcs.version_info < (0, 4, 0), "4")
+@unittest.skipIf(pyvcs.__version_info__ < (0, 4, 0), "4")
 class GitIndexEntryTestCase(TestCase):
     def test_pack(self):
         entry = GitIndexEntry(
