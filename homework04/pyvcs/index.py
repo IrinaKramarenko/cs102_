@@ -75,7 +75,8 @@ def read_index(gitdir: pathlib.Path) -> tp.List[GitIndexEntry]:
         end_position = len(main_content_copy) - 1
         for j in range(63, len(main_content_copy), 8):
             if main_content_copy[j] == 0:
-                end_position = joinbreak
+                end_position = j
+                break
         result += [GitIndexEntry.unpack(main_content_copy[: end_position + 1])]
         if len(main_content_copy) != end_position - 1:
             main_content_copy = main_content_copy[end_position + 1 :]
@@ -84,7 +85,7 @@ def read_index(gitdir: pathlib.Path) -> tp.List[GitIndexEntry]:
 
 def write_index(gitdir: pathlib.Path, entries: tp.List[GitIndexEntry]) -> None:
     # PUT YOUR CODE HERE
-    endex = "index"
+    index = "index"
     with (gitdir / index).open("wb") as file:
         data = b"DIRC\00\00\00\02"
         file.write(b"DIRC\00\00\00\02")
@@ -92,7 +93,7 @@ def write_index(gitdir: pathlib.Path, entries: tp.List[GitIndexEntry]) -> None:
         file.write(struct.pack(">I", len(entries)))
         for entry in entries:
             data += entry.pack()
-            file.write(entry.pack)
+            file.write(entry.pack())
         file.write(hashlib.sha1(data).digest())
 
 
@@ -130,7 +131,8 @@ def update_index(
                     ino=stat.st_ino,
                     mode=stat.st_mode,
                     uid=stat.st_uid,
-                    gid=stat.st_size,
+                    gid=stat.st_gid,
+                    size=stat.st_size,
                     sha1=bytes.fromhex(sha1),
                     flags=7,
                     name=str(path),

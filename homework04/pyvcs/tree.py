@@ -31,7 +31,7 @@ def write_tree(
         st = (pathlib.Path(gitdir.parent) / dirname / subdir_name).stat()
         sha = write_tree(
             gitdir,
-            to_add_dirs[subdir_name],
+            subdir_name,
             dirname + "/" + subdir_name if dirname != "" else subdir_name,
         )
         entries_to_format.append(
