@@ -23,10 +23,10 @@ def ref_resolve(gitdir: pathlib.Path, refname: str) -> str:
     if (gitdir / refname).exists():
         with open(gitdir / refname) as file:
             return file.read().strip()
-    return None
+    return None  # type: ignore
 
 
-def resolve_head(gitdir: pathlib.Path) -> tp.Optional[str]:
+def resolve_head(gitdir: pathlib.Path) -> str:
     # PUT YOUR CODE HERE
     return ref_resolve(gitdir, get_ref(gitdir))
 
