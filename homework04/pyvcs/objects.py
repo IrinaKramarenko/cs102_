@@ -65,14 +65,15 @@ def read_object(sha: str, gitdir: pathlib.Path) -> tp.Tuple[str, bytes]:
 
 def read_tree(data: bytes):
     # PUT YOUR CODE HERE
-    tree = []  # type
+    tree = []  # type: ignore
     while data:
         before_sha_ind = data.index(b"\00")
         mode, name = map(lambda x: x.decode(), data[:before_sha_ind].split(b" "))
         sha = data[before_sha_ind + 1 : before_sha_ind + 21]
-        tree.append(int(mode))
-        tree.append(name)  # type: ignore
-        tree.append(sha.hex())  # type: ignore
+        tree.append((int(mode), name, sha.hex()))  # type: ignore
+    #    tree.append(int(mode))
+    #    tree.append(name)  # type: ignore
+    #    tree.append(sha.hex())  # type: ignore
         data = data[before_sha_ind + 21 :]
     return tree
 

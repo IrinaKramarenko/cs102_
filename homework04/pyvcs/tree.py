@@ -9,57 +9,42 @@ from pyvcs.objects import hash_object
 from pyvcs.refs import get_ref, is_detached, resolve_head, update_ref
 
 
-def write_tree(
-    gitdir: pathlib.Path, index: tp.List[GitIndexEntry], dirname: str = ""
-) -> str:
-    # PUT YOUR CODE HERE
-    files_list = []
+def write_tree(gitdir: pathlib.Path, index: tp.List[GitIndexEntry], dirname: str = "") -> str:
+    tree_content: tp.List[tp.Tuple[int, str, bytes]] = []
+    subtrees: tp.Dict[str, tp.List[GitIndexEntry]] = dict()
+    files = []
     for x in (gitdir.parent / dirname).glob("*"):
-        files_list.append(x.absolute)
-    to_add_dirs: tp.Dict[str, tp.List[GitIndexEntry]]
-    to_add_dirs = dict()
-    entries_to_format = []
+        files.append(str(x))
     for entry in index:
-        if pathlib.Path(entry.name).absolute() in files_list:
-            entries_to_format.append(entry)
+        if entry.name in files:
+            tree_content.append((entry.mode, str(gitdir.parent / entry.name), entry.sha1))
         else:
-            subdir_name = entry.name.lstrip(dirname).split("/", 1)[0]
-            if subdir_name not in to_add_dirs:
-                to_add_dirs[subdir_name] = []
-            to_add_dirs[subdir_name].append(entry)
-    for subdir_name in to_add_dirs:
-        st = (pathlib.Path(gitdir.parent) / dirname / subdir_name).stat()
-        sha = write_tree(
-            gitdir,
-            to_add_dirs[subdir_name],
-            dirname + "/" + subdir_name if dirname != "" else subdir_name,
-        )
-        entries_to_format.append(
-            GitIndexEntry(
-                ctime_s=int(st.st_ctime),
-                ctime_n=st.st_ctime_ns % len(str(int(st.st_ctime))),
-                mtime_s=int(st.st_mtime),
-                mtime_n=st.st_mtime_ns % len(str(int(st.st_mtime))),
-                dev=st.st_dev,
-                ino=st.st_ino,
-                mode=0o40000,
-                uid=st.st_uid,
-                gid=st.st_gid,
-                size=st.st_size,
-                sha1=bytes.fromhex(sha),
-                flags=7,
-                name=str(pathlib.Path(gitdir.parent) / dirname / subdir_name),
+            dname = entry.name.lstrip(dirname).split("/", 1)[0]
+            if not dname in subtrees:
+                subtrees[dname] = []
+            subtrees[dname].append(entry)
+    for name in subtrees:
+        if dirname != "":
+            tree_content.append(
+                (
+                    0o40000,
+                    str(gitdir.parent / dirname / name),
+                    bytes.fromhex(write_tree(gitdir, subtrees[name], dirname + "/" + name)),
+                )
             )
-        )
-    preformatted_data = b"".join(
-        oct(entry.mode)[2:].encode()
-        + b" "
-        + pathlib.Path(entry.name).name.encode()
-        + b"\00"
-        + entry.sha1
-        for entry in sorted(entries_to_format, key=lambda x: x.name)
+        else:
+            tree_content.append(
+                (
+                    0o40000,
+                    str(gitdir.parent / dirname / name),
+                    bytes.fromhex(write_tree(gitdir, subtrees[name], name)),
+                )
+            )
+    tree_content.sort(key=lambda x: x[1])
+    data = b"".join(
+        f"{elem[0]:o} {elem[1].split('/')[-1]}".encode() + b"\00" + elem[2] for elem in tree_content
     )
-    return hash_object(preformatted_data, "tree", write=True)
+    return hash_object(data, "tree", write=True)
 
 
 def commit_tree(
