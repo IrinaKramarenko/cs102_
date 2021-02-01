@@ -52,10 +52,11 @@ def commit_tree(
     tree: str,
     message: str,
     parent: tp.Optional[str] = None,
-    author: tp.Optional[str] = None,
+    author = f"{os.getenv('GIT_AUTHOR_NAME')} <{os.getenv('GIT_AUTHOR_EMAIL')}>",
 ) -> str:
     now = int(time.mktime(time.localtime()))
     timezone = time.timezone
+    
     if timezone > 0:
         formatted_timezone = "-"
     else:
